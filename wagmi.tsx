@@ -1,7 +1,8 @@
-// wagmi.js
+// wagmi.tsx
 'use client'; // Pastikan ini adalah Client Component
 
-import { WagmiProvider, createConfig, http } from 'wagmi';
+import { ReactNode } from 'react';
+import { WagmiConfig, createConfig } from 'wagmi';
 import { mainnet, sepolia } from 'wagmi/chains';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ConnectKitProvider, getDefaultConfig } from 'connectkit';
@@ -12,25 +13,20 @@ const queryClient = new QueryClient();
 // 2. Buat konfigurasi wagmi
 const config = createConfig(
   getDefaultConfig({
-    // Wajib diisi
     appName: 'Your App Name',
-    walletConnectProjectId: process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID,
-
-    // Jaringan yang ingin didukung
+    walletConnectProjectId: process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID ?? '', // fallback aman
     chains: [mainnet, sepolia],
-    
-    // Opsional
-    ssr: true, // Jika menggunakan App Router di Next.js
+    ssr: true, // jika pakai App Router
   })
 );
 
 // 3. Ekspor komponen Provider
-export const Web3Provider = ({ children }) => {
+export const Web3Provider = ({ children }: { children: ReactNode }) => {
   return (
-    <WagmiProvider config={config}>
+    <WagmiConfig config={config}>
       <QueryClientProvider client={queryClient}>
         <ConnectKitProvider>{children}</ConnectKitProvider>
       </QueryClientProvider>
-    </WagmiProvider>
+    </WagmiConfig>
   );
 };
