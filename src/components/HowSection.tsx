@@ -4,13 +4,6 @@ import React, { useEffect } from "react";
 import "aos/dist/aos.css";
 
 export default function HowSection() {
-    useEffect(() => {
-        AOS.init({
-          duration: 1000, // durasi animasi (ms)
-          once: true,     // animasi hanya jalan sekali
-        });
-      }, []);
-
     return (
         <section className="bg-white-primary bg-[url('/how-background.png')] bg-cover bg-center px-6 py-20 relative overflow-hidden">
             <div className="max-w-7xl mx-auto relative z-10">
